@@ -9,11 +9,15 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.kennethbchen.smash2152scoutingsystem.lib.ScoutedNumber
-import com.kennethbchen.smash2152scoutingsystem.lib.ScoutedString
-import com.kennethbchen.smash2152scoutingsystem.lib.ScoutingForm
+import com.kennethbchen.smash2152scoutingsystem.lib.*
+import java.io.File
 
 class DeepSpacePage : AppCompatActivity() {
+
+    var rootDir: File? = null
+    var stagedDir: File? = null
+    var backupDir: File? = null
+
     private var submitButton: Button? = null
     private var ad: Dialog? = null
 
@@ -22,6 +26,22 @@ class DeepSpacePage : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_deep_space_page)
+        deepSpace.resetBehaviors[0] = ResetBehavior.persist
+        deepSpace.resetBehaviors[2] = ResetBehavior.increment
+        deepSpace.resetBehaviors[3] = ResetBehavior.persist
+
+        rootDir = this.filesDir
+        stagedDir = File(rootDir, "Staged")
+        if(stagedDir?.exists() == false){
+            stagedDir?.mkdir()
+        }
+
+        backupDir = File(rootDir, "Backup")
+        if(backupDir?.exists() == false){
+            backupDir?.mkdir()
+        }
+
+
 
         var dBuilder = AlertDialog.Builder(this)
         dBuilder.setTitle("Error")
@@ -37,7 +57,8 @@ class DeepSpacePage : AppCompatActivity() {
         submitButton = findViewById(resources.getIdentifier("submit", "id",packageName))
         submitButton?.setOnClickListener {
             if(validateAll()){
-                println(deepSpace)
+                var newFile = File(stagedDir, "")
+                deepSpace.resetAll()
             } else {
                 validationFailAlert.show()
             }
@@ -68,7 +89,7 @@ class DeepSpacePage : AppCompatActivity() {
             //The type of view changes the operation done to it
             when(view){
                 is Button -> {
-                    deepSpace.allValues[i] = ScoutedNumber()
+                    deepSpace.allValues[i] = ScoutedNumber(view)
                     var value = deepSpace.allValues[i] as ScoutedNumber
 
                     view.setOnClickListener {
@@ -83,8 +104,17 @@ class DeepSpacePage : AppCompatActivity() {
                     }
                 }
                 is TextView -> {
-                    var value =  ScoutedString(view)
-                    deepSpace.allValues[i] = value
+                    when {
+                        deepSpace.resetBehaviors[i] == ResetBehavior.reset -> {
+                            deepSpace.allValues[i] = ScoutedString(view)
+                        }
+                        deepSpace.resetBehaviors[i] == ResetBehavior.increment -> {
+                            deepSpace.allValues[i] = IncrementingScoutedString(view)
+                        }
+                        deepSpace.resetBehaviors[i] == ResetBehavior.persist -> {
+                            deepSpace.allValues[i] = PersistingScoutedString(view)
+                        }
+                    }
                 }
             }
         }

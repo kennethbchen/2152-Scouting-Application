@@ -1,6 +1,8 @@
 package com.kennethbchen.smash2152scoutingsystem.lib
 
-class ScoutedNumber: ScoutedValue(){
+import android.widget.Button
+
+class ScoutedNumber(val button: Button): ScoutedValue(){
 
     var count: Int = 0
 
@@ -12,6 +14,10 @@ class ScoutedNumber: ScoutedValue(){
         return count.toString()
     }
 
+    override fun reset(){
+        count = 0
+        button.text = count.toString()
+    }
     fun incrementValue(){
         count++
     }
@@ -20,4 +26,6 @@ class ScoutedNumber: ScoutedValue(){
         count--
         if(count < 0) count = 0
     }
+
+
 }

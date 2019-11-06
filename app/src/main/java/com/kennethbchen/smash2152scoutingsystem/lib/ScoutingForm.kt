@@ -3,7 +3,13 @@ package com.kennethbchen.smash2152scoutingsystem.lib
 class ScoutingForm(var numOfValues: Int) {
 
     var allValues = Array<ScoutedValue?>(numOfValues){null}
+    var resetBehaviors = Array<ResetBehavior>(numOfValues){ResetBehavior.reset}
 
+    fun resetAll(){
+        for(value in allValues){
+            value?.reset()
+        }
+    }
     override fun toString(): String {
         var output = ""
 

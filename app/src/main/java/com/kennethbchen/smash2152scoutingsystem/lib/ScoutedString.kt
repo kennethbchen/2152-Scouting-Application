@@ -2,7 +2,7 @@ package com.kennethbchen.smash2152scoutingsystem.lib
 
 import android.widget.TextView
 
-class ScoutedString(var view: TextView): ScoutedValue() {
+open class ScoutedString(var view: TextView): ScoutedValue() {
     var stringVal: String = ""
 
     override fun validateValue(): Boolean {
@@ -13,4 +13,10 @@ class ScoutedString(var view: TextView): ScoutedValue() {
         stringVal = view.text.toString()
         return stringVal
     }
+
+    override fun reset(){
+        stringVal = ""
+        view.text = stringVal
+    }
+
 }
