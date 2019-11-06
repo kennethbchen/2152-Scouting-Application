@@ -207,7 +207,7 @@
             android:focusable="auto"
             android:focusableInTouchMode="true"
             android:hint="Team"
-            android:inputType="textPersonName"
+            android:inputType="number"
             android:overScrollMode="never"
             android:scrollbarAlwaysDrawHorizontalTrack="false"
             android:scrollbarSize="0dp"

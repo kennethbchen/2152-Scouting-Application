@@ -18,6 +18,10 @@ class ScoutedNumber(val button: Button): ScoutedValue(){
         count = 0
         button.text = count.toString()
     }
+
+    override fun toString(): String {
+        return count.toString()
+    }
     fun incrementValue(){
         count++
     }

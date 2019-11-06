@@ -57,7 +57,13 @@ class DeepSpacePage : AppCompatActivity() {
         submitButton = findViewById(resources.getIdentifier("submit", "id",packageName))
         submitButton?.setOnClickListener {
             if(validateAll()){
-                var newFile = File(stagedDir, "")
+
+                // filename: NAME TEAM_NUMBER MATCH_NUMBER
+                var fileName = deepSpace.allValues[0].toString() + " " + deepSpace.allValues[1].toString() + " " + deepSpace.allValues[2].toString() + ".csv"
+                var newFile = File(stagedDir, fileName)
+                newFile.createNewFile()
+                newFile.writeText(deepSpace.toString())
+
                 deepSpace.resetAll()
             } else {
                 validationFailAlert.show()

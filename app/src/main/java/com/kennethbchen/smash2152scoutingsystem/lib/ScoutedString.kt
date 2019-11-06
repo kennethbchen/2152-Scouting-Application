@@ -19,4 +19,8 @@ open class ScoutedString(var view: TextView): ScoutedValue() {
         view.text = stringVal
     }
 
+    override fun toString(): String{
+        return stringVal
+    }
+
 }
