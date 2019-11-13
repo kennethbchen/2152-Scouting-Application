@@ -15,10 +15,6 @@ class NFCActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nfc)
 
-        deepSpace.resetBehaviors[0] = ResetBehavior.persist
-        deepSpace.resetBehaviors[2] = ResetBehavior.increment
-        deepSpace.resetBehaviors[3] = ResetBehavior.persist
-
         rootDir = this.filesDir
         stagedDir = File(rootDir, "Staged")
         if(stagedDir?.exists() == false){
