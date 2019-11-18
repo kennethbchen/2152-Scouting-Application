@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     fun loadNFCPage(view: View){
         val intent = Intent(this, NFCActivity::class.java).apply {}
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
         startActivity(intent)
     }
 }
