@@ -22,7 +22,7 @@ import org.w3c.dom.Text
 import java.nio.charset.Charset
 
 
-class NFCActivity : AppCompatActivity() {
+class NFCMainActivity : AppCompatActivity() {
 
     private var rootDir: File? = null
     private var stagedDir: File? = null
@@ -32,7 +32,6 @@ class NFCActivity : AppCompatActivity() {
 
     private var nfcAdapter: NfcAdapter? = null
     private var nfcPendingIntent: PendingIntent? = null
-    private var readTagFilters: Array<IntentFilter>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -3,7 +3,6 @@ package com.kennethbchen.smash2152scoutingsystem
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import java.io.File
 
@@ -36,7 +35,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loadNFCPage(view: View){
-        val intent = Intent(this, NFCActivity::class.java).apply {}
+        val intent = Intent(this, NFCMainActivity::class.java).apply {}
         startActivity(intent)
     }
 }
