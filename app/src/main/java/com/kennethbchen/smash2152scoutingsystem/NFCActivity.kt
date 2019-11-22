@@ -17,6 +17,8 @@ import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.nfc.NdefRecord
 import android.os.Debug
+import android.widget.TextView
+import org.w3c.dom.Text
 import java.nio.charset.Charset
 
 
@@ -25,6 +27,8 @@ class NFCActivity : AppCompatActivity() {
     var rootDir: File? = null
     var stagedDir: File? = null
     var backupDir: File? = null
+
+    var remainingText: TextView? = null
 
     var nfcAdapter: NfcAdapter? = null
     private var nfcPendingIntent: PendingIntent? = null
@@ -44,6 +48,10 @@ class NFCActivity : AppCompatActivity() {
         if (backupDir?.exists() == false) {
             backupDir?.mkdir()
         }
+
+        remainingText = findViewById(resources.getIdentifier("formsRemaining", "id", packageName))
+        setRemaining()
+
         nfcAdapter = NfcAdapter.getDefaultAdapter(this)
         checkNFCEnabled()
 
@@ -51,6 +59,13 @@ class NFCActivity : AppCompatActivity() {
         nfcPendingIntent = PendingIntent.getActivity(this,0, Intent(this, this::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0)
         var ndefDetected = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
         readTagFilters = Array<IntentFilter>(1){ndefDetected}
+
+
+    }
+
+    fun setRemaining(){
+        Log.d("Debug", stagedDir?.listFiles()?.size.toString())
+        remainingText?.text = stagedDir?.listFiles()?.size.toString() + " Forms Remaining"
 
     }
 
