@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.nfc.NdefRecord
 import android.os.Debug
+import java.nio.charset.Charset
 
 
 class NFCActivity : AppCompatActivity() {
@@ -48,65 +49,37 @@ class NFCActivity : AppCompatActivity() {
 
 
         nfcPendingIntent = PendingIntent.getActivity(this,0, Intent(this, this::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0)
-
         var ndefDetected = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
-
         readTagFilters = Array<IntentFilter>(1){ndefDetected}
 
     }
 
+
     override fun onResume() {
         super.onResume()
         checkNFCEnabled()
-
-        //Log.d("DEBUG", "onResume: $intent")
-
-        if (intent.action != null) {
-            if (intent.action.equals(NfcAdapter.ACTION_NDEF_DISCOVERED)) {
-                Log.d("Debug", "NDEF FOUND")
-            }
-            nfcAdapter?.enableForegroundDispatch(this, nfcPendingIntent, readTagFilters, null)
-
-        }
+        nfcAdapter?.enableForegroundDispatch(this, nfcPendingIntent, readTagFilters, null)
     }
+
     override fun onPause() {
         super.onPause()
-        //Log.d("DEBUG", "onPause: $intent")
         nfcAdapter?.disableForegroundDispatch(this)
     }
 
+
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+
         if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent?.action) {
             intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)?.also { rawMessages ->
                 val messages: List<NdefMessage> = rawMessages.map { it as NdefMessage }
+                Toast.makeText(this, messages[0].records[0].payload.toString(Charset.defaultCharset()), Toast.LENGTH_LONG).show()
+
             }
         }
+
     }
 
-    fun getNdefMessageFromIntent(intent: Intent): Array<NdefMessage?>{
-        var msgs = arrayOfNulls<NdefMessage>(0)
-        var action = intent.action
-
-        if(action.equals(NfcAdapter.ACTION_TAG_DISCOVERED) || action.equals(NfcAdapter.ACTION_NDEF_DISCOVERED)){
-            var rawMsgs = intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)
-            if(rawMsgs != null){
-                msgs = arrayOfNulls(rawMsgs.size)
-                for(i in rawMsgs.indices){
-                    msgs[i] = rawMsgs[i] as NdefMessage
-                }
-            } else {
-                var empty = byteArrayOf()
-                var record = NdefRecord(NdefRecord.TNF_UNKNOWN, empty, empty, empty)
-                var msg = NdefMessage(record)
-                msgs = Array<NdefMessage?>(1) {msg}
-            }
-        } else {
-            Log.e("DEBUG", "Unknown Intent.")
-            finish()
-        }
-        return msgs
-    }
 
     fun checkNFCEnabled(){
         if(nfcAdapter?.isEnabled == false){
