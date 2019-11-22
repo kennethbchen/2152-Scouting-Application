@@ -24,15 +24,15 @@ import java.nio.charset.Charset
 
 class NFCActivity : AppCompatActivity() {
 
-    var rootDir: File? = null
-    var stagedDir: File? = null
-    var backupDir: File? = null
+    private var rootDir: File? = null
+    private var stagedDir: File? = null
+    private var backupDir: File? = null
 
-    var remainingText: TextView? = null
+    private var remainingText: TextView? = null
 
-    var nfcAdapter: NfcAdapter? = null
+    private var nfcAdapter: NfcAdapter? = null
     private var nfcPendingIntent: PendingIntent? = null
-    var readTagFilters: Array<IntentFilter>? = null
+    private var readTagFilters: Array<IntentFilter>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,10 +57,6 @@ class NFCActivity : AppCompatActivity() {
 
 
         nfcPendingIntent = PendingIntent.getActivity(this,0, Intent(this, this::class.java).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0)
-        var ndefDetected = IntentFilter(NfcAdapter.ACTION_NDEF_DISCOVERED)
-        readTagFilters = Array<IntentFilter>(1){ndefDetected}
-
-
     }
 
     fun setRemaining(){
@@ -69,11 +65,10 @@ class NFCActivity : AppCompatActivity() {
 
     }
 
-
     override fun onResume() {
         super.onResume()
         checkNFCEnabled()
-        nfcAdapter?.enableForegroundDispatch(this, nfcPendingIntent, readTagFilters, null)
+        nfcAdapter?.enableForegroundDispatch(this, nfcPendingIntent, null, null)
     }
 
     override fun onPause() {
@@ -84,7 +79,7 @@ class NFCActivity : AppCompatActivity() {
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
-
+        Log.d("Debug", "New Intent Found")
         if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent?.action) {
             intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)?.also { rawMessages ->
                 val messages: List<NdefMessage> = rawMessages.map { it as NdefMessage }
