@@ -7,4 +7,25 @@
     <string name="load_nfc_write_button">Send To Card</string>
     <string name="load_nfc_read_button">Read From Card</string>
     <string name="forms_remaining_default">0 Forms Remaining</string>
+
+    <string name="name_default">Name</string>
+    <string name="team_default">Team</string>
+    <string name="match_num_default">Match #</string>
+    <string name="starting_position_default">Starting Pos</string>
+    <string name="pickup_label">Pickup</string>
+    <string name="drop_label">Drop</string>
+    <string name="fouls_label">Fouls</string>
+    <string name="comments_default">Comments</string>
+    <string name="button_default">0</string>
+
+    <string name="starting_height_default">Start Height</string>
+    <string name="parking_level_default">Parking Level</string>
+    <string name="parking_time_default">Parking Time</string>
+    <string name="hatch_label">Hatch</string>
+    <string name="cargo_label">Cargo</string>
+    <string name="level_1_label">L1</string>
+    <string name="level_2_label">L2</string>
+    <string name="level_3_label">L3</string>
+
+
 </resources>
