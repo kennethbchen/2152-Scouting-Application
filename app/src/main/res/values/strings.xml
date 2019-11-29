@@ -7,7 +7,7 @@
     <string name="load_nfc_write_button">Send To Card</string>
     <string name="load_nfc_read_button">Read From Card</string>
     <string name="forms_remaining_default">0 Forms Remaining</string>
-
+    <string name="nfc_read_prompt">Touch tag to device to read. Tap to cancel...</string>
     <string name="name_default">Name</string>
     <string name="team_default">Team</string>
     <string name="match_num_default">Match #</string>

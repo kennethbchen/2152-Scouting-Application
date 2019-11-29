@@ -1,6 +1,7 @@
 package com.kennethbchen.smash2152scoutingsystem
 
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.nfc.NdefMessage
@@ -17,7 +18,14 @@ import androidx.core.content.ContextCompat.getSystemService
 import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.nfc.NdefRecord
 import android.os.Debug
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.widget.LinearLayout
+import android.widget.PopupWindow
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import org.w3c.dom.Text
 import java.nio.charset.Charset
 
@@ -61,8 +69,8 @@ class NFCMainActivity : AppCompatActivity() {
     fun setRemaining(){
         Log.d("Debug", stagedDir?.listFiles()?.size.toString())
         remainingText?.text = stagedDir?.listFiles()?.size.toString() + " Forms Remaining"
-
     }
+
 
     override fun onResume() {
         super.onResume()
